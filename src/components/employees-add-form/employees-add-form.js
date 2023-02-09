@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 import './employees-add-form.css'
 
@@ -8,7 +7,8 @@ class EmployeesAddForm extends Component{
         super(props);
         this.state = {
             name: '',
-            salary: ''
+            salary: '',
+            deservesBonus: false
         }
     }
 
@@ -16,6 +16,18 @@ class EmployeesAddForm extends Component{
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    submit = (event) => {
+        event.preventDefault();
+        if (this.state.name && this.state.salary) {
+            this.props.addItem(this.state)
+            this.setState({
+                name: '',
+                salary: '',
+                deservesBonus: false
+            })
+        }
     }
     
     render() {
@@ -25,7 +37,8 @@ class EmployeesAddForm extends Component{
             <div className="app-add-form">
                 <h3>Add new employee</h3>
                 <form 
-                    className="add-form d-flex">
+                    className="add-form d-flex"
+                    onSubmit={this.submit}>
                     <input type="text"
                         className="form-control new-post-label"
                         placeholder="What's his name?" 
