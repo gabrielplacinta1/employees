@@ -1,13 +1,16 @@
-import EmployeesListItem from '../employees-list-item/employees-list-item';
-import './employees-list.css'
+import EmployeesListItem from "../employees-list-item/employees-list-item";
+
+import './employees-list.css';
 
 const EmployeesList = ({data, onDelete}) => {
 
     const elements = data.map(item => {
+        const {id, ...itemProps} = item;
         return (
             <EmployeesListItem 
-                key={item.id} name={item.name} salary={item.salary} deservesBonus={item.deservesBonus}
-                onDelete={() => onDelete(item.id)}/>
+                key={id} 
+                {...itemProps}
+                onDelete={() => onDelete(id)}/>
         )
     })
 
@@ -19,7 +22,3 @@ const EmployeesList = ({data, onDelete}) => {
 }
 
 export default EmployeesList;
-
-
-
-

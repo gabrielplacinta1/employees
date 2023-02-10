@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import nextId from "react-id-generator";
 
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
@@ -13,24 +12,37 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [
+                {name: 'John C.', salary: 800, increase: false, id: 1},
+                {name: 'Alex M.', salary: 3000, increase: true, id: 2},
+                {name: 'Carl W.', salary: 5000, increase: false, id: 3}
+            ]
         }
+        this.maxId = 4;
     }
 
     deleteItem = (id) => {
-        this.setState(({data}) => ({
-            data: data.filter(item => item.id !== id)
-        }))
+        this.setState(({data}) => {
+            return {
+                data: data.filter(item => item.id !== id)
+            }
+        })
     }
 
-    addItem = (dataObj) => {
-        dataObj.id = nextId();
+    // Да, пока могут добавляться пустые пользователи. Мы это еще исправим
+    addItem = (name, salary) => {
+        const newItem = {
+            name, 
+            salary,
+            increase: false,
+            id: this.maxId++
+        }
         this.setState(({data}) => {
-            const newArr = [...data, dataObj] 
+            const newArr = [...data, newItem];
             return {
                 data: newArr
             }
-        })
+        });
     }
 
     render() {
@@ -39,17 +51,16 @@ class App extends Component {
                 <AppInfo />
     
                 <div className="search-panel">
-                    <SearchPanel />
-                    <AppFilter />
+                    <SearchPanel/>
+                    <AppFilter/>
                 </div>
-    
+                
                 <EmployeesList 
                     data={this.state.data}
                     onDelete={this.deleteItem}/>
-                <EmployeesAddForm 
-                    addItem={this.addItem}/>
+                <EmployeesAddForm onAdd={this.addItem}/>
             </div>
-        )
+        );
     }
 }
 
