@@ -31,7 +31,6 @@ class App extends Component {
         })
     }
 
-    // Да, пока могут добавляться пустые пользователи. Мы это еще исправим
     addItem = (name, salary) => {
         if (name && salary) {
             const newItem = {
